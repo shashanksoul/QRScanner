@@ -5,8 +5,10 @@ import {Camera, CameraPosition, useCameraDevice, useCodeScanner} from 'react-nat
 import styles from './styles';
 import { Icon } from '../../components';
 import { useNavigation } from '@react-navigation/native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const ScannerScreen: React.FC = () => {
+    const insects = useSafeAreaInsets();
     const navigation = useNavigation<any>();
     const [cameraType, setCameraType] = React.useState<CameraPosition>('back');
     const [torchIcon, setTorchIcon] = React.useState<'flash-off'| 'flash-on'>('flash-off');
@@ -53,8 +55,8 @@ const ScannerScreen: React.FC = () => {
          style={StyleSheet.absoluteFill}
          codeScanner={codeScanner}
         />
-          <View style={styles.container}>
-        <View style={styles.headerContainer}>
+          <View style={[styles.container,{paddingTop: insects.top,bottom: insects.bottom}]}>
+          <View style={styles.headerContainer}>
             <Icon name="menu" containerStyle={styles.hamburgerIcon} onPress={_onHamburgerPress}/>
            <View style={styles.iconContainer}>
            <Icon name="image"  />
