@@ -10,11 +10,10 @@ import {
 import Slider from '@react-native-community/slider';
 import styles from './styles';
 import {Icon} from '../../components';
-import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import { navigationRef } from '../../navigators';
+import {navigationRef, toggleDrawer} from '../../navigators';
 
-const ScannerScreen: React.FC = ({navigation}) => {
+const ScannerScreen: React.FC = () => {
   const insects = useSafeAreaInsets();
   const cameraRef = React.useRef<Camera | null>();
   const [cameraType, setCameraType] = React.useState<CameraPosition>('back');
@@ -31,7 +30,7 @@ const ScannerScreen: React.FC = ({navigation}) => {
   };
 
   const _onHamburgerPress = () => {
-    navigation.toggleDrawer();
+    toggleDrawer();
   };
 
   const _onTorchIcronPress = () => {
@@ -60,13 +59,19 @@ const ScannerScreen: React.FC = ({navigation}) => {
     codeTypes: ['qr', 'ean-13'],
     onCodeScanned: async codes => {
       if (isScanning.current) {
-        // isScanning.current = false;
+        isScanning.current = false;
         const photo = await cameraRef.current?.takeSnapshot();
-        console.log(photo);
-        navigationRef.navigate('Result', {
-          code: codes[0],
-          image: photo?.path,
+        if(photo)
+        {
+          navigationRef.navigate('ScanStack', {
+          screen: 'Result',
+          params: {
+            code: codes[0],
+            image: photo.path,
+          },
         });
+        isScanning.current = true;
+      }
       }
     },
   });

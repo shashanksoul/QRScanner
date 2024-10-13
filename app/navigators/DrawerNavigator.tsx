@@ -2,9 +2,21 @@ import React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {Icon} from '../components';
 import {ScannerScreen} from '../screens';
-import {ScanStackNavigator} from './StackNavigator';
+import {ScanStackNavigator, StackParamList} from './StackNavigator';
+import { NavigatorScreenParams } from '@react-navigation/native';
 
-const Drawer = createDrawerNavigator();
+export type DrawerParamList = {
+  ScanStack: NavigatorScreenParams<StackParamList>;
+  'Scan Image': undefined;
+  Favorites: undefined;
+  History: undefined;
+  'My QR': undefined;
+  'Create QR': undefined;
+  Settings: undefined;
+  Share: undefined;
+};
+
+const Drawer = createDrawerNavigator<DrawerParamList>();
 
 const drawerIcon = (
   name: string,

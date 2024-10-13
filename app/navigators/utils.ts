@@ -1,6 +1,7 @@
 import { createNavigationContainerRef, DrawerActions } from '@react-navigation/native';
+import { DrawerParamList } from './DrawerNavigator';
 
-export const navigationRef = createNavigationContainerRef();
+export const navigationRef = createNavigationContainerRef<DrawerParamList>();
 
 export const toggleDrawer = () => {
     console.log(navigationRef.isReady());
