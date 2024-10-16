@@ -1,9 +1,16 @@
 import React from 'react';
-import {createDrawerNavigator} from '@react-navigation/drawer';
+import {
+  createDrawerNavigator,
+  DrawerContentComponentProps,
+  DrawerContentScrollView,
+  DrawerItem,
+  DrawerItemList,
+} from '@react-navigation/drawer';
 import {Icon} from '../components';
 import {ScannerScreen} from '../screens';
 import {ScanStackNavigator, StackParamList} from './StackNavigator';
-import { NavigatorScreenParams } from '@react-navigation/native';
+import {NavigatorScreenParams} from '@react-navigation/native';
+import {Share} from 'react-native';
 
 export type DrawerParamList = {
   ScanStack: NavigatorScreenParams<StackParamList>;
@@ -26,16 +33,17 @@ const drawerIcon = (
 
 const DrawerNavigator = () => {
   return (
-    <Drawer.Navigator>
+    <Drawer.Navigator drawerContent={DrawerContent}>
       <Drawer.Screen
         name="ScanStack"
         component={ScanStackNavigator}
         options={{
           headerShown: false,
+          drawerLabel: 'Scan',
           drawerIcon: ({color, size}) => drawerIcon('fullscreen', color, size),
         }}
       />
-      <Drawer.Screen
+      {/* <Drawer.Screen
         name="Scan Image"
         component={ScannerScreen}
         options={{
@@ -82,16 +90,26 @@ const DrawerNavigator = () => {
           headerShown: false,
           drawerIcon: ({color, size}) => drawerIcon('settings', color, size),
         }}
-      />
-      <Drawer.Screen
-        name="Share"
-        component={ScannerScreen}
-        options={{
-          headerShown: false,
-          drawerIcon: ({color, size}) => drawerIcon('share', color, size),
+      /> */}
+    </Drawer.Navigator>
+  );
+};
+
+const DrawerContent = (props: DrawerContentComponentProps) => {
+  return (
+    <DrawerContentScrollView {...props}>
+      <DrawerItemList {...props} />
+      <DrawerItem
+        label={'Share'}
+        icon={({color, size}) => drawerIcon('share', color, size)}
+        onPress={() => {
+          Share.share({
+            message:
+              "I'm using QR Scanner app.Try it NOW! \n https://play.google.com/store/apps",
+          });
         }}
       />
-    </Drawer.Navigator>
+    </DrawerContentScrollView>
   );
 };
 

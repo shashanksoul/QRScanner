@@ -60,18 +60,18 @@ const ScannerScreen: React.FC = () => {
     onCodeScanned: async codes => {
       if (isScanning.current) {
         isScanning.current = false;
-        const photo = await cameraRef.current?.takeSnapshot();
-        if(photo)
-        {
+        const photo = await cameraRef.current?.takePhoto();
+        if (photo) {
+          isScanning.current = true;
+          setTorchIcon('flash-off');
           navigationRef.navigate('ScanStack', {
-          screen: 'Result',
-          params: {
-            code: codes[0],
-            image: photo.path,
-          },
-        });
-        isScanning.current = true;
-      }
+            screen: 'Result',
+            params: {
+              code: codes[0],
+              image: photo.path,
+            },
+          });
+        }
       }
     },
   });
@@ -92,6 +92,7 @@ const ScannerScreen: React.FC = () => {
         torch={torchIcon === 'flash-on' ? 'on' : 'off'}
         device={device}
         zoom={zoomValue}
+        photo
         style={StyleSheet.absoluteFill}
         codeScanner={codeScanner}
       />
