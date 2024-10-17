@@ -1,8 +1,5 @@
 import {
-  DrawerActions,
-  NavigationProp,
   RouteProp,
-  useNavigation,
   useRoute,
 } from '@react-navigation/native';
 import React, {useEffect} from 'react';
